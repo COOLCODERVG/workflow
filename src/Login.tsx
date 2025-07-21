@@ -55,7 +55,7 @@ const Loginform = () => {
             Log in to your account
           </h1>
           <h2 className="text-center text-gray-400 text-[1.9ch] mb-[7vh]">
-            Login with the predefined credentials below (*Demonstration purposes only).
+            Please continue to our Employee Platform
           </h2>
           <Label className="text-lg mb-1">Email</Label>
           <input
