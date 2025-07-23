@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TaskPage from "./tasks";
 import TaskPage2 from "./yourtasks";
 import Management from "./management";
-import ForgotPasssword from "./forgotPasssword";
+import ForgotPasssword from "./forgotPassword";
 import ResetPassword from "./resetPassword";
 import Team from "./team";
 
