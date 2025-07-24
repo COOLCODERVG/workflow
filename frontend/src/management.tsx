@@ -174,7 +174,7 @@ const handleSubmit = async() => {
           <div className="w-full relative">
             <h2 className="text-3xl font-bold tracking-tight">Assign Tasks</h2>
             <p className="text-muted-foreground mb-[2vh]">
-              Here is where YOU CAN ASSIGN tasks to your team.
+              Here is where you can assign tasks to your team.
             </p>
             <Button onClick={()=>{setForm(true)}}  className="absolute -bottom-[2vh] right-0 border-white border !py-[0.25vh] px-[1vw]">+ Add</Button>
           </div>

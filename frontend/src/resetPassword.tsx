@@ -71,7 +71,7 @@ const ResetPasssword = () => {
           </Button>
         </form>
         <h2 className="absolute bottom-[1vw] left-[1vw] text-gray-200 text-[1.3ch]">
-          Copyright © Dyne Research 2024. All rights reserved.
+          Copyright © Dyne Research 2025. All rights reserved.
         </h2>
       </div>
       <img className="w-[60%] object-cover object-right" src={picture} alt="Background" />

@@ -115,7 +115,7 @@ export default function TaskPage() {
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Department Tasks</h2>
             <p className="text-muted-foreground mb-[2vh]">
-              Here are the SPECIFIC TASKS for the {formatDepartments(usrData.Departments)}.
+              Here are the tasks for the {formatDepartments(usrData.Departments)}.
             </p>
           </div>
         </div>
