@@ -11,8 +11,8 @@ const Home = () => {
             <div className="flex items-center justify-between space-y-2">
                 <div className="w-full relative">
                     <h2 className="text-3xl font-bold tracking-tight mb-[1vh]">Welcome to WorkFlow</h2>
-                    <p className="text-muted-foreground mb-[2vh]">Please make sure all of your information is correct and proceed to the website. <br/>Reset your password if you haven't done so already. Thanks!</p>
-                    <p className="text-muted-foreground mb-[2vh]">Reach out to admin@domain.com for any questions or suggestions.</p>
+                    <p className="text-muted-foreground mb-[2vh]">Since this is an employee platform, users are NOT allowed to create their own accounts and thus there is no signup.</p>
+                    <p className="text-muted-foreground mb-[2vh]">The test account is registered with all departments in order to allow the user full control over the application.</p>
                     
                     <h2 className="text-3xl font-bold tracking-tight mb-[1vh] mt-[15vh]">Your Info</h2>
                     <div className="grid grid-cols-2 mt-[2vh]">
