@@ -26,7 +26,7 @@ from datetime import timedelta
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dyneems.onrender.com', 'localhost:5173', '127.0.0.1:8000', '127.0.0.1']
+ALLOWED_HOSTS = ['dyneems.onrender.com', 'localhost:5173', '127.0.0.1:8000', '127.0.0.1', 'schoolifys.pythonanywhere.com']
 
 AUTH_USER_MODEL = "app.CustomUser"
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders', 
+    'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     'django.contrib.postgres',
     'django_rest_passwordreset',
@@ -89,8 +89,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Add these at the top of your settings.py
 from os import getenv
-from dotenv import load_dotenv
-import dj_database_url
 import os
 
 # Replace the DATABASES section of your settings.py with this
@@ -101,6 +99,36 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+"""
+
+
+
+PGHOST='ep-twilight-rain-a5ferpbr.us-east-2.aws.neon.tech'
+PGDATABASE='dynedb'
+PGUSER='dynedb_owner'
+PGPASSWORD='w1bXM5dzqaIf'
+
+
+# Add these at the top of your settings.py
+from os import getenv
+from dotenv import load_dotenv
+
+# Replace the DATABASES section of your settings.py with this
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': PGDATABASE,
+    'USER': PGUSER,
+    'PASSWORD': PGPASSWORD,
+    'HOST': PGHOST,
+    'PORT': 5432,
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+  }
+}
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -205,7 +233,7 @@ if not DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = (
             "rest_framework.renderers.JSONRenderer",
         )
-    
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
