@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import Task, Department, CustomUser
+from .models import Task, Department, CustomUser, SP
 
 User = get_user_model()
 
@@ -19,7 +19,7 @@ admin.site.register(Department)
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'id', 'is_staff', 'is_superuser', 'department_list', 'initials')
+    list_display = ('username', 'id', 'email', 'department_list', 'initials')
 
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
@@ -29,3 +29,4 @@ class CustomUserAdmin(admin.ModelAdmin):
     department_list.short_description = 'Departments'
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(SP)

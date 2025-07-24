@@ -5,6 +5,16 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+class Department(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _('department')
+        verbose_name_plural = _('departments')
+
+    def __str__(self):
+        return self.name
+    
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -28,26 +38,17 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-
-class Department(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    class Meta:
-        verbose_name = _('department')
-        verbose_name_plural = _('departments')
-
-    def __str__(self):
-        return self.name
-    
-
+#------------------- User Model --------------------
 class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     
     # Generate 6-digit random ID
-    id = models.IntegerField(default=random.randint(100000, 999999), unique=True, primary_key=True, editable=False)
+    id = models.IntegerField(default=random.randint(100000, 999999), unique=True, primary_key=True)
     pfp = models.TextField(default='https://i.ibb.co/R932cKN/logo.png')
     initials = models.CharField(max_length=3, default='')
     department = models.ManyToManyField(Department, blank=True)
+    team_lead = models.ManyToManyField(Department, blank=True, related_name='team_leads')
+    display_team_lead = models.ManyToManyField(Department, blank=True, related_name='display_team_leads')
     contract = models.FileField(upload_to='contracts/', blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -73,7 +74,9 @@ class CustomUser(AbstractUser):
         verbose_name=_('user permissions'),
         help_text=_('Specific permissions for this user.'),
     )    
-    
+
+
+#------------------- Task Model --------------------
 class Task(models.Model):
     assigned_users = models.ManyToManyField(
         CustomUser,
@@ -94,7 +97,7 @@ class Task(models.Model):
     )
     task_title = models.CharField(max_length=500)
     task_description = models.TextField()
-    task_due_date = models.DateTimeField()
+    task_due_date = models.DateField()
     task_status = models.IntegerField(default=0)
     priority = models.IntegerField(default=0)
 
@@ -103,6 +106,31 @@ class Task(models.Model):
         verbose_name_plural = _('tasks')
 
 
+from datetime import datetime
+#------------------- ProgReport Model --------------------
+class ProgReport(models.Model):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name='proguser',
+        verbose_name=_('proguser'),
+        on_delete=models.CASCADE,
+    )
+    task = models.ForeignKey(
+        Task,
+        related_name='task',
+        verbose_name=_('task'),
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    report_title = models.CharField(max_length=500)
+    report_description = models.TextField()
+    report_url = models.URLField()
+    time_spent = models.IntegerField()
+    date_submitted = models.DateTimeField(default=datetime.today)
+    
+
+
+#------------------- Reset Password Email --------------------
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -112,7 +140,7 @@ from django.core.mail import send_mail, EmailMessage
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
     # the below like concatinates your websites reset password url and the reset email token which will be required at a later stage
-    email_plaintext_message = "Open the link to reset your password" + " " + "{}{} \n \nDidn't reset your password?, Then please ignore this email. \n\n Dyne Management Team".format(instance.request.build_absolute_uri("http://localhost:5173/reset-password-form/"), reset_password_token.key)
+    email_plaintext_message = "Open the link to reset your password for Dyne EMS" + " " + "{}{} \n \nDidn't reset your password?, Please safely ignore this email. \n\nDyne Management Team".format(instance.request.build_absolute_uri("http://localhost:5173/reset-password-form/"), reset_password_token.key)
     
     """
         this below line is the django default sending email function, 
@@ -129,3 +157,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         [reset_password_token.user.email],
         fail_silently=False,
     )
+
+class SP(models.Model):
+    SP_dict = models.CharField(max_length=100000, unique=True)
