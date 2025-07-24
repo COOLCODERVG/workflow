@@ -79,7 +79,7 @@ export default function TaskPage() {
           <div className="w-full relative">
             <h2 className="text-3xl font-bold tracking-tight">Your Tasks</h2>
             <p className="text-muted-foreground mb-[2vh]">
-              Here are the tasks that are assigned to you by your team leads.
+              Here are the tasks that are assigned TO YOU by your team leads.
             </p>
           </div>
         </div>

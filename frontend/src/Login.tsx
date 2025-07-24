@@ -8,8 +8,8 @@ import picture from "./assets/bg.png";
 import logo from "./assets/logo.png";
 
 const Loginform = () => {
-  const [email, setEmail] = useState("demouser@workflow.com");
-  const [password, setPassword] = useState("Testuser!");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("test");
   const [err, setErr] = useState("");
 
   const history = useNavigate();
