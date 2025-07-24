@@ -110,7 +110,7 @@ def get_dept_by_id(request):
         return Response({'error': 'Department does not exist.'}, status=404)
     except Exception as e:
         return Response({'error': str(e)}, status=500)
-    
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def get_task_by_id(request):
@@ -207,7 +207,7 @@ def edit_task(request):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def your_tasks(request):
@@ -252,7 +252,7 @@ def get_users_by_dept(request):
         return Response({'error': 'Department does not exist.'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
 @api_view(['POST'])
 def new_tasks(request):
     try:
@@ -293,7 +293,7 @@ def new_tasks(request):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def change_task_priority(request):
@@ -307,7 +307,7 @@ def change_task_priority(request):
         task.priority = task_num
         task.save()
         return Response('Success', status=status.HTTP_200_OK)
-    
+
     return Response({'error': 'Invalid task status'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -339,7 +339,7 @@ def get_team_by_dept(request):
         return Response({'departments': final_dict})
     except Exception as e:
         return Response({'error': str(e)}, status=500)
-    
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -356,7 +356,7 @@ def create_progress_report(request):
 
     task = get_object_or_404(Task, id=task_id)
     user = get_object_or_404(CustomUser, email=report_user_email)
-    
+
     prog_report = ProgReport.objects.create(
         user=user,
         task=task,
@@ -364,7 +364,7 @@ def create_progress_report(request):
         report_description=report_description,
         time_spent=report_hours,
         report_url=report_url
-        
+
     )
 
     return Response({'message': 'Success'}, status=status.HTTP_201_CREATED)
@@ -375,13 +375,13 @@ def create_progress_report(request):
 def get_progress_reports(request):
     task_id = request.data.get('task_id')
     task_obj = get_object_or_404(Task, id=task_id)
-    
+
     # Fetch all ProgReport objects associated with the task
     reports = ProgReport.objects.filter(task=task_obj)
-    
+
     # Serialize the queryset with many=True to allow for multiple objects
     final_rep = ProgReportSerializer(reports, many=True)
-    
+
     return Response(final_rep.data, status=status.HTTP_200_OK)
 
 
@@ -411,26 +411,26 @@ def create_passwords(request):
 @api_view(['POST'])  # Assuming you are sending the password in a POST request
 def validate_pass(request):
     passw = request.data.get('password')
-    
+
     # Retrieve the SP object
     obj = get_object_or_404(SP, id=1)
-    
+
     # Load the passwords from the JSON field
     try:
         passwords = json.loads(obj.SP_dict)
     except json.JSONDecodeError:
         return Response({'error': 'Failed to decode passwords'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     # Check if the password exists in the list
     if passw in passwords:
         print(passw)
         # Remove the used password
         passwords.remove(passw)
-        
+
         # Save the updated password list back to the database
         obj.SP_dict = json.dumps(passwords)
         obj.save()
-        
+
         return Response({'Authorization Successful'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
@@ -445,13 +445,13 @@ def signup(request):
     try:
         User = get_user_model()  # Get the user model
         print(request.data)
-        
+
         dept = request.data.get('department')
         fname = request.data.get('firstName')
         lname = request.data.get('lastName')
         email = request.data.get('username')
         password = request.data.get('password')
-        
+
         username = str(fname).lower() + str(lname).lower()
         initials = fname[0].upper() + lname[0].upper()
 
@@ -464,7 +464,7 @@ def signup(request):
         while objects:
             id = random.randint(111111, 999999)
             objects = User.objects.filter(id = id)
-        
+
 
         # Create the user instance
         custom_user = User.objects.create_user(
@@ -485,7 +485,7 @@ def signup(request):
     except Exception as e:
         print(e)
         return Response({'message': 'Error creating user'}, status=500)
-    
+
 from django.core.mail import send_mail, EmailMessage,EmailMultiAlternatives
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -557,11 +557,11 @@ def bootcampregisteration(request):
         )
         # Set the content type to HTML
         email_message.content_subtype = "html"
-        
+
         # Send the email
         email_message.send()
         print("Html sent")
-    
+
     except Exception as e:
         print(f"Error sending email: {e}")
         return Response({'message': 'Failed to send email'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
