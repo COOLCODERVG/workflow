@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { React } from "react"
-import axios from "axios";
+
 type Theme = "dark" | "light" | "system"
 
 type ThemeProviderProps = {
